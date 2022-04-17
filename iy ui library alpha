@@ -1,0 +1,75 @@
+local lib = {}
+lib.__index = lib
+local Players = game:GetService("Players")
+local Player = Players.LocalPlayer
+
+local POS = {
+	["Middle"] = UDim2.new(0.5, -129,0.5, -129),
+	["RightUp"] = UDim2.new(1, -259,0, 0),
+	["LeftUp"] = UDim2.new(0, 0, 0, 0),
+	["MiddleUp"] = UDim2.new(0.5, -129,0, 0),
+	["MiddleLeft"] = UDim2.new(0, 0,0.5, -129),
+	["MiddleRight"] = UDim2.new(0, 259,0, 259),
+	["LeftDown"] = UDim2.new(0, 0,1, -259),
+	["MiddleDown"] = UDim2.new(0.5, -129,1, -259),
+	["RightDown"] = UDim2.new(1, -259,1, -259)
+}
+local SIZE = {
+	["Cube"] = UDim2.new(0, 259, 0, 259),
+	["longthing"] = UDim2.new(0, 182,0, 252)
+}
+local COLOR = {
+	["Simple"] = Color3.fromRGB(56, 56, 56),
+	["ButtonSimple"] = Color3.fromRGB(66, 66, 66)
+}
+
+local function CreateCorner(Parent)
+	local Corner = Instance.new("UICorner")
+	Corner.CornerRadius = UDim.new(0, 3)
+	Corner.Parent = Parent
+end
+
+function lib.CreateUi()
+	local UI = {}
+	setmetatable(UI, lib)
+	UI.ScreenGui = Instance.new("ScreenGui")
+	UI.ScreenGui.Parent = Player:WaitForChild("PlayerGui")
+	UI.Last = nil
+	UI.CurrentFrame = nil
+	return UI
+end
+
+function lib:AddFrame(Enabled:boolean, Pos:string, Size:string, Color:string)
+	local Frame = Instance.new("Frame")
+	self.CurrentFrame = Frame
+	Frame.Visible = Enabled
+	Frame.AnchorPoint = Vector2.new(0.5, 0.5)
+	Frame.Position = assert(POS[Pos], "Invalid position type")
+	Frame.Size = assert(SIZE[Size], "Invalid size type")
+	Frame.BackgroundColor3 = assert(COLOR[Color], "Invalid color type")
+	Frame.Parent = self.ScreenGui
+	self.Last = Frame
+	CreateCorner(Frame or self.Last or self.CurrentFrame)
+	local Layout = Instance.new("UIGridLayout")
+	Layout.CellSize = UDim2.new(0, 77, 0, 27)
+	Layout.Parent = Frame
+	self.Last = Layout
+end
+
+function lib:AddButton(Color:string, func, text:string)
+	local Button = Instance.new("TextButton")
+	Button.BackgroundColor3 = assert(COLOR[Color], "Invalid color type")
+	Button.AnchorPoint = Vector2.new(0.5, 0.5)
+	Button.BorderSizePixel = 0
+	Button.Text = text
+	Button.Font = Enum.Font.SourceSans
+	Button.FontSize = Enum.FontSize.Size14
+	Button.TextColor3 = Color3.fromRGB(226, 226, 226)
+	Button.Size = UDim2.new(77, 0, 27, 0)
+	Button.Activated:Connect(func)
+	CreateCorner(Button)
+	Button.Parent = self.CurrentFrame
+	self.Last = Button
+end
+
+return lib
