@@ -2,7 +2,9 @@ if not game.Loaded then game.Loaded:Wait() end
 shared.Debugging = false
 local script = game:GetService("CoreGui").NotEnoughCommands.DummyMain
 local UI = script.Parent
+local DescriptionLabel = UI.Description
 local Main = UI.Main
+local CommandLabel = Main.Commands
 local Notification = Main.Notification
 local Welcome =  Main.Welcome
 local Tab1 = Main.Tab1
@@ -11,15 +13,19 @@ local Player = Players.LocalPlayer
 local TweenService = game:GetService("TweenService")
 local MatchInfo = TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out, 0, false, 0)
 local ToolInfo = TweenInfo.new(1, Enum.EasingStyle.Back, Enum.EasingDirection.Out, 0, false, 0)
+local CMDSInfo = TweenInfo.new(1.7, Enum.EasingStyle.Back, Enum.EasingDirection.Out, 0, false, 0)
 local MatchUi = Main.Match
 local SettingsOpen = false
+local CommandsOpen = false
 local Goals = {
 	OutGoal = {Position = UDim2.new(0.5, 235,1, -30)},
 	InGoal = {Position = UDim2.new(0.5, -21,1, -30)},
 	NotifyOutGoal = {Position = UDim2.new(0.5, -235,1, -60)},
 	NotifyInGoal = {Position = UDim2.new(0.5, -235,1, -30)},
 	SettingsOutGoal = {Position = UDim2.new(0.5, -381,1, -30)},
-	SettingsInGoal = {Position = UDim2.new(0.5, -235,1, -30)}
+	SettingsInGoal = {Position = UDim2.new(0.5, -235,1, -30)},
+	CommandsInGoal = {Position = UDim2.new(0.5, -158,0.5, 200)},
+	CommandsOutGoal = {Position = UDim2.new(0.5, -158,0.5, -300)}
 }
 local Out = TweenService:Create(MatchUi, MatchInfo, Goals.OutGoal)
 local In = TweenService:Create(MatchUi, MatchInfo, Goals.InGoal)
@@ -27,6 +33,8 @@ local NotifyOut = TweenService:Create(Notification, MatchInfo, Goals.NotifyOutGo
 local NotifyIn = TweenService:Create(Notification, MatchInfo, Goals.NotifyInGoal)
 local SettingsOut = TweenService:Create(Tab1, ToolInfo, Goals.SettingsOutGoal)
 local SettingsIn = TweenService:Create(Tab1, ToolInfo, Goals.SettingsInGoal)
+local CommandsIn = TweenService:Create(CommandLabel, CMDSInfo, Goals.CommandsInGoal)
+local CommandsOut = TweenService:Create(CommandLabel, CMDSInfo, Goals.CommandsOutGoal)
 local UiS = game:GetService("UserInputService")
 local CommandBox = Main.CommandBox
 Welcome.Text = "Welcome, <b>"..Player.Name.."</b>."
@@ -58,6 +66,7 @@ local Commands; Commands = {
 		Function = function()
 			if CurrentPart then CurrentPart:Destroy() end
 		end,
+		Description = "Destroys current selected part"
 	},
 	{
 		Name = "destroyparts",
@@ -67,6 +76,7 @@ local Commands; Commands = {
 				Part:Destroy()
 			end
 		end,
+		Description = "Destroys current selected parts"
 	},
 	{
 		Name = "clearparts",
@@ -74,6 +84,7 @@ local Commands; Commands = {
 		Function = function()
 			table.clear(SelectedParts)
 		end,
+		Description = "Clears current selected parts"
 	},
 	{
 		Name = "networkowner",
@@ -85,6 +96,7 @@ local Commands; Commands = {
 				sethiddenproperty(Caller, "SimulationRadius", math.huge*math.huge)
 			end)
 		end,
+		Description = "Enables net bypass"
 	},
 	{
 		Name = "drophandle",
@@ -100,6 +112,7 @@ local Commands; Commands = {
 			Tool.Handle.CFrame = CFrame.new(math.huge, math.huge, math.huge)
 			if Keep == "true" then Tool.Handle.Parent = Caller else Tool.Handle.Parent = workspace end
 		end,
+		Description = "Removes tool handle"
 	},
 	{
 		Name = "toolhead",
@@ -121,6 +134,7 @@ local Commands; Commands = {
 				BodyPos.Position = Character.PrimaryPart.Position
 			end)
 		end,
+		Description = "Positions the tool into your head"
 	},
 	{
 		Name = "blockhead",
@@ -129,6 +143,7 @@ local Commands; Commands = {
 			local Character = Caller.Character
 			Character.Head.Mesh:Destroy()
 		end,
+		Description = "Turns your head into a block"
 	},
 	{
 		Name = "faceless",
@@ -137,6 +152,7 @@ local Commands; Commands = {
 			local Character = Caller.Character
 			Character.Head.face:Destroy()
 		end,
+		Description = "Removes your face"
 	},
 	{
 		Name = "blockhats",
@@ -149,6 +165,7 @@ local Commands; Commands = {
 				end
 			end
 		end,
+		Description = "Turns your hats into blocks"
 	},
 	{
 		Name = "freeze",
@@ -156,6 +173,7 @@ local Commands; Commands = {
 		Function = function(Caller, Plr)
 			workspace:FindFirstChild(Plr).PrimaryPart.Anchored = true
 		end,
+		Description = "Freezes a person (CLIENT)"
 	},
 	{
 		Name = "delethuman",
@@ -164,6 +182,7 @@ local Commands; Commands = {
 			local Character = Caller.Character
 			Character.Humanoid:Destroy()
 		end,
+		Description = "Deletes your humanoid"
 	},
 	{
 		Name = "rotato",
@@ -174,6 +193,7 @@ local Commands; Commands = {
 				Character.HumanoidRootPart.CFrame = CFrame.Angles(dt, dt, dt)
 			end)
 		end,
+		Description = "Makes you spin really fast"
 	},
 	{
 		Name = "unrotato",
@@ -181,6 +201,7 @@ local Commands; Commands = {
 		Function = function(Caller)
 			Connections["rotato"]:Disconnect()
 		end,
+		Description = "Stops rotato"
 	},
 	{
 		Name = "noclip",
@@ -193,6 +214,7 @@ local Commands; Commands = {
 				Character.Torso.CanCollide = false
 			end)
 		end,
+		Description = "Enables noclip"
 	},
 	{
 		Name = "unnoclip",
@@ -200,6 +222,7 @@ local Commands; Commands = {
 		Function = function(Caller)
 			Connections["noclip"]:Disconnect()
 		end,
+		Description = "Stops noclip"
 	},
 	{
 		Name = "notify",
@@ -207,6 +230,7 @@ local Commands; Commands = {
 		Function = function(Caller, Text, Duration)
 			GlobalFunctions.Notify(Text, tonumber(Duration))
 		end,
+		Description = "Creates a notification"
 	},
 	{
 		Name = "spasm",
@@ -226,6 +250,7 @@ local Commands; Commands = {
 				end
 			end)
 		end,
+		Description = "Spasms you out"
 	},
 	{
 		Name = "unspasm",
@@ -233,6 +258,7 @@ local Commands; Commands = {
 		Function = function()
 			Connections["spasm"]:Disconnect()
 		end,
+		Description = "Disables spasm"
 	},
 	{
 		Name = "float",
@@ -251,6 +277,7 @@ local Commands; Commands = {
 				end
 			end)
 		end,
+		Description = "Makes you float"
 	},
 	{
 		Name = "unfloat",
@@ -259,6 +286,7 @@ local Commands; Commands = {
 			Connections["float"]:Disconnect()
 			Connections["floatinput"]:Disconnect()
 		end,
+		Description = "Disables float"
 	},
 	{
 		Name = "sit",
@@ -267,6 +295,7 @@ local Commands; Commands = {
 			local Character = Caller.Character
 			Character.Humanoid.Sit = true
 		end,
+		Description = "Makes you sit"
 	},
 	{
 		Name = "fixmain",
@@ -278,6 +307,7 @@ local Commands; Commands = {
 				tool.Parent = Caller.Backpack
 			end
 		end,
+		Description = "Fixes thing"
 	}
 }
 local function FindCMD(Name:string)
@@ -338,6 +368,14 @@ local Connection2; Connection2 = UiS.InputBegan:Connect(function(Input, Chatting
 			SettingsOpen = false
 			SettingsIn:Play()
 		end
+	elseif Input.KeyCode == Enum.KeyCode.Delete then
+		if not CommandsOpen then
+			CommandsOpen = true
+			CommandsOut:Play()
+		else
+			CommandsOpen = false
+			CommandsIn:Play()
+		end
 	end
 end)
 
@@ -368,3 +406,24 @@ Player.Backpack.ChildRemoved:Connect(function(Child)
 		Goals.SettingsInGoal = {Position = UDim2.new(0.5, -235,1, -30)}
 	end
 end)
+
+RunService.RenderStepped:Connect(function()
+	DescriptionLabel.Position = UDim2.new(0, Mouse.X + 10, 0, Mouse.Y + 10)
+end)
+
+for _, Command in ipairs(Commands) do
+	local Button = CommandLabel.Template:Clone()
+	Button.Visible = true
+	Button.Text = Command.Name
+	Button.MouseEnter:Connect(function()
+		DescriptionLabel.Visible = true
+		DescriptionLabel.Text = Command.Description or "<DEFAULT DESCRIPTION>"
+	end)
+	Button.MouseLeave:Connect(function()
+		DescriptionLabel.Visible = false
+	end)
+	Button.Activated:Connect(function()
+		CommandBox.Text = Button.Text
+	end)
+	Button.Parent = CommandLabel
+end
