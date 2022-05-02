@@ -1,1 +1,0 @@
-game:GetObjects("rbxassetid://9526977945")[1].Parent = game:GetService("CoreGui")
