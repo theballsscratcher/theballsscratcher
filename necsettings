@@ -1,0 +1,22 @@
+local script = game:GetService("CoreGui").NotEnoughCommands.Main.Tab1.DummySettings
+local Tab = script.Parent
+local Main = Tab.Parent
+local Ui = Main.Parent
+local Colors = Tab.Colors
+local Warning = Tab.Warning
+local WarningTab = Ui.WarningTab
+local TweenService = game:GetService("TweenService")
+local Info = TweenInfo.new(1, Enum.EasingStyle.Back, Enum.EasingDirection.Out, 0, false, 0)
+local WarningTabOut = TweenService:Create(WarningTab, Info, {Position = UDim2.new(0, 393,0, 93)})
+local WarningTabIn = TweenService:Create(WarningTab, Info, {Position = UDim2.new(0, 393,0, 500)})
+local Open = false
+
+Warning.Activated:Connect(function()
+	if not Open then
+		WarningTabOut:Play()
+		Open = true
+	else
+		WarningTabIn:Play()
+		Open = false
+	end
+end)
