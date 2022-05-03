@@ -10,6 +10,8 @@ local CommandLabel = Main.Commands
 local Notification = Main.Notification
 local Welcome =  Main.Welcome
 local update;
+local AddAddon;
+local RemoveAddon;
 local Tab1 = Main.Tab1
 local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
@@ -316,18 +318,15 @@ local Commands; Commands = {
 		Name = "addaddon",
 		Aliases = {"add"},
 		Function = function(Caller, Name)
-			print(Name, isfile(Name..".xyz"))
-			if isfile(path..Name..".xyz") then
-				local file = loadfile(path..Name..".xyz")()
-				print(file, Name)
-				table.insert(Commands, file)
-				update()
-			else
-				local file = loadfile(Name..".xyz")()
-				print(file, Name)
-				table.insert(Commands, file)
-				update()
-			end
+			AddAddon(Name)
+		end,
+		Description = "Addon testing"
+	},
+	{
+		Name = "removeaddon",
+		Aliases = {"rd"},
+		Function = function(Caller, Name)
+			AddAddon(Name)
 		end,
 		Description = "Addon testing"
 	}
@@ -345,6 +344,30 @@ local function Match(str:string)
 		if Value and Value.Name:find(str) or Value.Aliases[str] then
 			return Value
 		end
+	end
+end
+AddAddon = function(Name)
+	print(Name, isfile(Name..".xyz"))
+	if isfile(path..Name..".xyz") then
+		local file = loadfile(path..Name..".xyz")()
+		print(file, Name)
+		table.insert(Commands, file)
+		update()
+	else
+		local file = loadfile(Name..".xyz")()
+		print(file, Name)
+		writefile(path, readfile(Name..".xyz")
+		delfile(Name..".xyz")
+		table.insert(Commands, file)
+		update()
+	end
+end
+RemoveAddon = function(Name)
+	if isfile(path..Name..".xyz" then
+		local file = loadfile(path..Name..".xyz")()
+		CommandLabe[file.Name]:Destroy()
+		table.remove(Match(file.Name))
+		update()
 	end
 end
 
