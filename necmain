@@ -316,10 +316,12 @@ local Commands; Commands = {
 		Function = function(Caller, Name)
 			if isfile(Name.."xyz") then
 				local file = loadfile(Name..".xyz")()
+				print(file, Name)
 				table.insert(Commands, file)
 				update()
 			end
 		end,
+		Desc = "Addon testing"
 	}
 }
 local function FindCMD(Name:string)
