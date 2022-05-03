@@ -10,20 +10,6 @@ local Main = UI.Main
 local CommandLabel = Main.Commands
 local Notification = Main.Notification
 local Welcome =  Main.Welcome
-local function AddAddon(Name)
-	if isfile(path..Name..".xyz") then
-		local file = loadfile(path..Name..".xyz")()
-		print(file, Name)
-		table.insert(Commands, file)
-		update()
-	else
-		local file = loadfile(Name..".xyz")()
-		writefile(path, readfile(Name..".xyz"))
-		delfile(Name..".xyz")
-		table.insert(Commands, file)
-		update()
-	end
-end
 local Tab1 = Main.Tab1
 local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
@@ -109,6 +95,20 @@ local function Match(str:string)
 		if Value and Value.Name:find(str) or Value.Aliases[str] then
 			return Value
 		end
+	end
+end
+local function AddAddon(Name)
+	if isfile(path..Name..".xyz") then
+		local file = loadfile(path..Name..".xyz")()
+		print(file, Name)
+		table.insert(Commands, file)
+		update()
+	else
+		local file = loadfile(Name..".xyz")()
+		writefile(path, readfile(Name..".xyz"))
+		delfile(Name..".xyz")
+		table.insert(Commands, file)
+		update()
 	end
 end
 local Mouse = Player:GetMouse()
