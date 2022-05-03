@@ -7,6 +7,7 @@ local Main = UI.Main
 local CommandLabel = Main.Commands
 local Notification = Main.Notification
 local Welcome =  Main.Welcome
+local update;
 local Tab1 = Main.Tab1
 local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
@@ -308,6 +309,17 @@ local Commands; Commands = {
 			end
 		end,
 		Description = "Fixes thing"
+	},
+	{
+		Name = "addaddon",
+		Aliases = {"add"},
+		Function = function(Caller, Name)
+			if isfile(Name.."xyz") then
+				local file = loadfile(Name.."xyz")()
+				table.insert(Commands, file)
+				update()
+			end
+		end,
 	}
 }
 local function FindCMD(Name:string)
@@ -411,19 +423,25 @@ RunService.RenderStepped:Connect(function()
 	DescriptionLabel.Position = UDim2.new(0, Mouse.X + 10, 0, Mouse.Y + 10)
 end)
 
-for _, Command in ipairs(Commands) do
-	local Button = CommandLabel.Template:Clone()
-	Button.Visible = true
-	Button.Text = Command.Name
-	Button.MouseEnter:Connect(function()
-		DescriptionLabel.Visible = true
-		DescriptionLabel.Text = Command.Description or "<DEFAULT DESCRIPTION>"
-	end)
-	Button.MouseLeave:Connect(function()
-		DescriptionLabel.Visible = false
-	end)
-	Button.Activated:Connect(function()
-		CommandBox.Text = Button.Text
-	end)
-	Button.Parent = CommandLabel
+update = function()
+	for _, Command in ipairs(Commands) do
+		if not CommandLabel:FindFirstChild(Command.Name) then
+			local Button = CommandLabel.Template:Clone()
+			Button.Visible = true
+			Button.Name = Command.Name
+			Button.Text = Command.Name.."/"..Command.Aliases[1] or Command.Name
+			Button.MouseEnter:Connect(function()
+				DescriptionLabel.Visible = true
+				DescriptionLabel.Text = Command.Description or "<DEFAULT DESCRIPTION>"
+			end)
+			Button.MouseLeave:Connect(function()
+				DescriptionLabel.Visible = false
+			end)
+			Button.Activated:Connect(function()
+				CommandBox.Text = Button.Name
+			end)
+			Button.Parent = CommandLabel
+		end
+	end
 end
+update()
