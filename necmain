@@ -315,7 +315,7 @@ local Commands; Commands = {
 		Aliases = {"add"},
 		Function = function(Caller, Name)
 			if isfile(Name.."xyz") then
-				local file = loadfile(Name.."xyz")()
+				local file = loadfile(Name..".xyz")()
 				table.insert(Commands, file)
 				update()
 			end
