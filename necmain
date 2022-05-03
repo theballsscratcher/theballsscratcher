@@ -317,8 +317,13 @@ local Commands; Commands = {
 		Aliases = {"add"},
 		Function = function(Caller, Name)
 			print(Name, isfile(Name..".xyz"))
-			if isfile(Name..".xyz") then
-				local file = loadfile(path..Name..".xyz")() or loadfile(Name..".xyz")
+			if isfile(path..Name..".xyz") then
+				local file = loadfile(path..Name..".xyz")()
+				print(file, Name)
+				table.insert(Commands, file)
+				update()
+			else
+				local file = loadfile(Name..".xyz")()
 				print(file, Name)
 				table.insert(Commands, file)
 				update()
