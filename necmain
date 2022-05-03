@@ -365,7 +365,7 @@ end
 RemoveAddon = function(Name)
 	if isfile(path..Name..".xyz" then
 		local file = loadfile(path..Name..".xyz")()
-		CommandLabe[file.Name]:Destroy()
+		CommandLabel[file.Name]:Destroy()
 		table.remove(Match(file.Name))
 		update()
 	end
