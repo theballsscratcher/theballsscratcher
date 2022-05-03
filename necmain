@@ -3,42 +3,6 @@ makefolder("notenoughcommands")
 local path = "notenoughcommands/"
 shared.Debugging = false
 local Commands;
-local function update()
-	for _, Command in ipairs(Commands) do
-		if not CommandLabel:FindFirstChild(Command.Name) then
-			local Button = CommandLabel.Template:Clone()
-			Button.Visible = true
-			Button.Name = Command.Name
-			Button.Text = Command.Name.."/"..Command.Aliases[1] or Command.Name
-			Button.MouseEnter:Connect(function()
-				DescriptionLabel.Visible = true
-				DescriptionLabel.Text = Command.Description or "<DEFAULT DESCRIPTION>"
-			end)
-			Button.MouseLeave:Connect(function()
-				DescriptionLabel.Visible = false
-			end)
-			Button.Activated:Connect(function()
-				CommandBox.Text = Button.Name
-			end)
-			Button.Parent = CommandLabel
-		end
-	end
-end
-local function FindCMD(Name:string)
-	for _, Value in ipairs(Commands) do
-		if shared.Debugging then print(Value, Value.Name, Value.Aliases, Value.Function) end
-		if Value.Name == Name:lower() or table.find(Value.Aliases, Name:lower()) then
-			return Value.Function
-		end
-	end
-end
-local function Match(str:string)
-	for _, Value in pairs(Commands) do
-		if Value and Value.Name:find(str) or Value.Aliases[str] then
-			return Value
-		end
-	end
-end
 local script = game:GetService("CoreGui").NotEnoughCommands.DummyMain
 local UI = script.Parent
 local DescriptionLabel = UI.Description
@@ -111,6 +75,42 @@ local GlobalFunctions = {
 		NotifyIn:Play()
 	end,
 }
+local function update()
+	for _, Command in ipairs(Commands) do
+		if not CommandLabel:FindFirstChild(Command.Name) then
+			local Button = CommandLabel.Template:Clone()
+			Button.Visible = true
+			Button.Name = Command.Name
+			Button.Text = Command.Name.."/"..Command.Aliases[1] or Command.Name
+			Button.MouseEnter:Connect(function()
+				DescriptionLabel.Visible = true
+				DescriptionLabel.Text = Command.Description or "<DEFAULT DESCRIPTION>"
+			end)
+			Button.MouseLeave:Connect(function()
+				DescriptionLabel.Visible = false
+			end)
+			Button.Activated:Connect(function()
+				CommandBox.Text = Button.Name
+			end)
+			Button.Parent = CommandLabel
+		end
+	end
+end
+local function FindCMD(Name:string)
+	for _, Value in ipairs(Commands) do
+		if shared.Debugging then print(Value, Value.Name, Value.Aliases, Value.Function) end
+		if Value.Name == Name:lower() or table.find(Value.Aliases, Name:lower()) then
+			return Value.Function
+		end
+	end
+end
+local function Match(str:string)
+	for _, Value in pairs(Commands) do
+		if Value and Value.Name:find(str) or Value.Aliases[str] then
+			return Value
+		end
+	end
+end
 local Mouse = Player:GetMouse()
 Commands = {
 	{
