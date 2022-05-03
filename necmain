@@ -3,6 +3,27 @@ makefolder("notenoughcommands")
 local path = "notenoughcommands/"
 shared.Debugging = false
 local Commands;
+local function update()
+	for _, Command in ipairs(Commands) do
+		if not CommandLabel:FindFirstChild(Command.Name) then
+			local Button = CommandLabel.Template:Clone()
+			Button.Visible = true
+			Button.Name = Command.Name
+			Button.Text = Command.Name.."/"..Command.Aliases[1] or Command.Name
+			Button.MouseEnter:Connect(function()
+				DescriptionLabel.Visible = true
+				DescriptionLabel.Text = Command.Description or "<DEFAULT DESCRIPTION>"
+			end)
+			Button.MouseLeave:Connect(function()
+				DescriptionLabel.Visible = false
+			end)
+			Button.Activated:Connect(function()
+				CommandBox.Text = Button.Name
+			end)
+			Button.Parent = CommandLabel
+		end
+	end
+end
 local function FindCMD(Name:string)
 	for _, Value in ipairs(Commands) do
 		if shared.Debugging then print(Value, Value.Name, Value.Aliases, Value.Function) end
@@ -39,28 +60,6 @@ local function AddAddon(Name)
 		update()
 	end
 end
-local function update()
-	for _, Command in ipairs(Commands) do
-		if not CommandLabel:FindFirstChild(Command.Name) then
-			local Button = CommandLabel.Template:Clone()
-			Button.Visible = true
-			Button.Name = Command.Name
-			Button.Text = Command.Name.."/"..Command.Aliases[1] or Command.Name
-			Button.MouseEnter:Connect(function()
-				DescriptionLabel.Visible = true
-				DescriptionLabel.Text = Command.Description or "<DEFAULT DESCRIPTION>"
-			end)
-			Button.MouseLeave:Connect(function()
-				DescriptionLabel.Visible = false
-			end)
-			Button.Activated:Connect(function()
-				CommandBox.Text = Button.Name
-			end)
-			Button.Parent = CommandLabel
-		end
-	end
-end
-update()
 local Tab1 = Main.Tab1
 local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
@@ -372,7 +371,7 @@ Commands = {
 		Description = "Addon testing"
 	},
 }
-
+update()
 
 local Connection; Connection = CommandBox.FocusLost:Connect(function(Enter)
 	if Enter and #CommandBox.Text:split(" ") > 0 then
