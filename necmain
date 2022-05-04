@@ -112,6 +112,13 @@ local function AddAddon(Name)
 		update()
 	end
 end
+local function RemoveAddon(Name)
+	if isfile(path..Name..".xyz")
+		local intable = Match(Name)
+		CommandLabel[intable.Name]:Destroy()
+		table.remove(Commands, intable)
+	end
+end
 local Mouse = Player:GetMouse()
 Commands = {
 	{
@@ -371,6 +378,14 @@ Commands = {
 		end,
 		Description = "Addon testing"
 	},
+	{
+		Name = "removeaddon",
+		Aliases = {"red"},
+		Function = function(Caller, Name)
+			RemoveAddon(Name)
+		end,
+		Description = "Removes addon"
+	}
 }
 update()
 
