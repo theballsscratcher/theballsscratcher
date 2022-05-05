@@ -111,7 +111,7 @@ local function getfile(Name:string)
     if isfile(path..Name..".xyz") then
         file = loadfile(path..Name..".xyz")
     else
-		file = loadfile(Name..".xyz")()
+		file = loadfile(Name..".xyz")
 		writefile(path..Name, readfile(Name..".xyz"))
 		delfile(Name..".xyz")
 	end
@@ -127,7 +127,7 @@ end
 local function RemoveAddon(Name)
 	if table.find(addedaddons, Name) then
 		print(FindIndex(Name), CommandLabel:FindFirstChild(Name))
-		CommandLabel:FindFirstChild(Match(Name).Name):Destroy()
+		CommandLabel:FindFirstChild(getfile(Name)().Name:Destroy()
 		table.remove(Commands, FindIndex(Name))
 		table.remove(addedaddons, table.find(addedaddons, Name))
 	end
