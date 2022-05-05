@@ -1,6 +1,6 @@
 if not game.Loaded then game.Loaded:Wait() end
 makefolder("notenoughcommands")
-local path = "notenoughcommands\"
+local path = "notenoughcommands\\"
 shared.Debugging = false
 local Commands;
 local script = game:GetService("CoreGui").NotEnoughCommands.DummyMain
@@ -106,16 +106,16 @@ local function Match(str:string)
 	end
 end
 local function AddAddon(Name)
-	if isfile(path..Name..".xyz") then
-		local file = loadfile(path..Name..".xyz")()
+	if isfile(path..Name.."#xyz") then
+		local file = loadfile(path..Name.."#xyz")()
 		print(file, Name)
 		table.insert(Commands, file)
 		update()
 	else
-		local file = loadfile(Name..".xyz")()
+		local file = loadfile(Name.."#xyz")()
 		writefile(path..Name, readfile(Name..".xyz"))
 		task.wait()
-		delfile(Name..".xyz")
+		delfile(Name.."#xyz")
 		table.insert(Commands, file)
 		update()
 	end
