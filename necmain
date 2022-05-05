@@ -84,7 +84,7 @@ local function update()
 end
 local function FindIndex(Name)
 	for Index, Val in ipairs(Commands)
-		if Val.Name == Name or Val.Aliases[Name] the
+		if Val.Name == Name or Val.Aliases[Name] then
 			return Index
 		end
 	end
