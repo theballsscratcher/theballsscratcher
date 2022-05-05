@@ -19,6 +19,7 @@ local ToolInfo = TweenInfo.new(1, Enum.EasingStyle.Back, Enum.EasingDirection.Ou
 local CMDSInfo = TweenInfo.new(1.7, Enum.EasingStyle.Back, Enum.EasingDirection.Out, 0, false, 0)
 local MatchUi = Main.Match
 local SettingsOpen = false
+local addedaddons = {}
 local CommandsOpen = false
 local Goals = {
 	OutGoal = {Position = UDim2.new(0.5, 235,1, -30)},
@@ -117,8 +118,11 @@ local function getfile(Name:string)
     return file
 end
 local function AddAddon(Name)
-	table.insert(Commands, getfile(Name)())
-	update()
+	if not table.find(Name) and name ~= "addonapi" then
+		table.insert(Commands, getfile(Name)())
+		table.insert(addedaddons, Name)
+		update()
+	end
 end
 local function RemoveAddon(Name)
     print(FindIndex(Name), CommandLabel:FindFirstChild(Name))
