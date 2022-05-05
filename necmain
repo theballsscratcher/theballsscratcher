@@ -1,6 +1,6 @@
 if not game.Loaded then game.Loaded:Wait() end
 makefolder("notenoughcommands")
-local path = "notenoughcommands/"
+local path = "notenoughcommands\"
 shared.Debugging = false
 local Commands;
 local script = game:GetService("CoreGui").NotEnoughCommands.DummyMain
