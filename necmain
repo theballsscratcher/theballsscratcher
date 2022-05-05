@@ -113,7 +113,7 @@ local function AddAddon(Name)
 		update()
 	else
 		local file = loadfile(Name..".xyz")()
-		writefile("notenoughcommands/"..Name, readfile(Name..".xyz"))
+		writefile(path..Name, readfile(Name..".xyz"))
 		task.wait()
 		delfile(Name..".xyz")
 		table.insert(Commands, file)
