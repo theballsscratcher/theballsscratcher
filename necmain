@@ -118,6 +118,7 @@ local function getfile(Name:string)
 end
 local function AddAddon(Name)
 	table.insert(Commands, getfile(Name)())
+	update()
 end
 local function RemoveAddon(Name)
     print(FindIndex(Name), CommandLabel:FindFirstChild(Name))
