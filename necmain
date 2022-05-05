@@ -117,7 +117,7 @@ local function getfile(Name:string)
     return file
 end
 local function AddAddon(Name)
-	table.insert(Commands, getfile(Name))
+	table.insert(Commands, getfile(Name)())
 end
 local function RemoveAddon(Name)
     print(FindIndex(Name), CommandLabel:FindFirstChild(Name))
