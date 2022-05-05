@@ -119,7 +119,7 @@ local function getfile(Name:string)
 end
 local function AddAddon(Name)
 	if not table.find(addedaddons, Name) and name ~= "addonapi" then
-		table.insert(Commands, getfile(path..Name..".xyz")())
+		table.insert(Commands, getfile(Name)())
 		table.insert(addedaddons, Name)
 		update()
 	end
@@ -127,7 +127,7 @@ end
 local function RemoveAddon(Name)
 	if table.find(addedaddons, Name) then
 		print(FindIndex(Name), CommandLabel:FindFirstChild(Name))
-		CommandLabel:FindFirstChild(getfile(Name)().Name:Destroy())
+		CommandLabel:FindFirstChild(getfile(Name)().Name):Destroy()
 		table.remove(Commands, FindIndex(Name))
 		table.remove(addedaddons, table.find(addedaddons, Name))
 	end
