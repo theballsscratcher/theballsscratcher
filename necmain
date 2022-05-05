@@ -83,7 +83,7 @@ local function update()
 	end
 end
 local function FindIndex(Name)
-	for Index, Val in pairs(Commands)
+	for Index, Val in pairs(Commands) do
 		if Val.Name == Name or Val.Aliases[Name] then
             print(Val, Name, Index)
 			return Index
