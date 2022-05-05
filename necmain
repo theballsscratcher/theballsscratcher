@@ -82,6 +82,13 @@ local function update()
 		end
 	end
 end
+local function FindIndex(Name)
+	for Index, Val in ipairs(Commands)
+		if Val.Name == Name or Val.Aliases[Name] the
+			return Index
+		end
+	end
+end
 local function FindCMD(Name:string)
 	for _, Value in ipairs(Commands) do
 		if shared.Debugging then print(Value, Value.Name, Value.Aliases, Value.Function) end
@@ -112,6 +119,11 @@ local function AddAddon(Name)
 		update()
 	end
 end
+local function RemoveAddon(Name)
+	CommandLabel:FindFirstChild(Name):Destroy()
+	table.remove(Commands, FindIndex(Name))
+end
+	
 local Mouse = Player:GetMouse()
 Commands = {
 	{
