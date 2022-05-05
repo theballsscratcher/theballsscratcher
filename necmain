@@ -105,20 +105,19 @@ local function Match(str:string)
 		end
 	end
 end
-local function AddAddon(Name)
-	if isfile(path..Name..".xyz") then
-		local file = loadfile(path..Name..".xyz")()
-		print(file, Name)
-		table.insert(Commands, file)
-		update()
-	else
-		local file = loadfile(Name..".xyz")()
+local function getfile(Name:string)
+    local file;
+    if isfile(path..Name..".xyz") then
+        file = loadfile(path..Name..".xyz")
+    else
+		file = loadfile(Name..".xyz")()
 		writefile(path..Name, readfile(Name..".xyz"))
-		task.wait()
 		delfile(Name..".xyz")
-		table.insert(Commands, file)
-		update()
 	end
+    return file
+end
+local function AddAddon(Name)
+	table.insert(Commands, getfile(Name))
 end
 local function RemoveAddon(Name)
     print(FindIndex(Name), CommandLabel:FindFirstChild(Name))
