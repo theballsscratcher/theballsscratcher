@@ -107,12 +107,12 @@ local function Match(str:string)
 end
 local function AddAddon(Name)
 	if isfile(path..Name..".xyz") then
-		local file = loadfile(path..Name..".xyz")()
+		local file = loadfile(path..Name..".xyz")
 		print(file, Name)
 		table.insert(Commands, file)
 		update()
 	else
-		local file = loadfile(Name..".xyz")()
+		local file = loadfile(Name..".xyz")
 		writefile("notenoughcommands/"..Name, readfile(Name..".xyz"))
 		task.wait()
 		delfile(Name..".xyz")
