@@ -129,7 +129,7 @@ local function RemoveAddon(Name)
 		print(FindIndex(Name), CommandLabel:FindFirstChild(Name))
 		CommandLabel:FindFirstChild(Name):Destroy()
 		table.remove(Commands, FindIndex(Name))
-		table.remove(addedaddons, table.find(addedaddons, name))
+		table.remove(addedaddons, table.find(addedaddons, Name))
 	end
 end
 	
