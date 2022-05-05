@@ -118,7 +118,7 @@ local function getfile(Name:string)
     return file
 end
 local function AddAddon(Name)
-	if not table.find(Name) and name ~= "addonapi" then
+	if not table.find(addedaddons, Name) and name ~= "addonapi" then
 		table.insert(Commands, getfile(Name)())
 		table.insert(addedaddons, Name)
 		update()
