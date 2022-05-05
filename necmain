@@ -127,7 +127,7 @@ end
 local function RemoveAddon(Name)
 	if table.find(addedaddons, Name) then
 		print(FindIndex(Name), CommandLabel:FindFirstChild(Name))
-		CommandLabel:FindFirstChild(getfile(Name)().Name:Destroy()
+		CommandLabel:FindFirstChild(getfile(Name)().Name:Destroy())
 		table.remove(Commands, FindIndex(Name))
 		table.remove(addedaddons, table.find(addedaddons, Name))
 	end
