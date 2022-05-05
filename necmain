@@ -125,9 +125,12 @@ local function AddAddon(Name)
 	end
 end
 local function RemoveAddon(Name)
-    print(FindIndex(Name), CommandLabel:FindFirstChild(Name))
-	CommandLabel:FindFirstChild(Name):Destroy()
-	table.remove(Commands, FindIndex(Name))
+	if table.find(addedaddons, Name) then
+		print(FindIndex(Name), CommandLabel:FindFirstChild(Name))
+		CommandLabel:FindFirstChild(Name):Destroy()
+		table.remove(Commands, FindIndex(Name))
+		table.remove(addedaddons, table.find(addedaddons, name))
+	end
 end
 	
 local Mouse = Player:GetMouse()
