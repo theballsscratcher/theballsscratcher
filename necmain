@@ -67,7 +67,7 @@ local function update()
 			local Button = CommandLabel.Template:Clone()
 			Button.Visible = true
 			Button.Name = Command.Name
-			Button.Text = Command.Name.."/"..Command.Aliases[1] or Command.Name
+			Button.Text = Command.Name
 			Button.MouseEnter:Connect(function()
 				DescriptionLabel.Visible = true
 				DescriptionLabel.Text = Command.Description or "<DEFAULT DESCRIPTION>"
