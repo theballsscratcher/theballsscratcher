@@ -119,10 +119,10 @@ local function AddAddon(Name)
 		update()
 	end
 end
-local function RemoveAddon(Name)
+--[[local function RemoveAddon(Name)
 	CommandLabel:FindFirstChild(Name):Destroy()
 	table.remove(Commands, FindIndex(Name))
-end
+end]]
 	
 local Mouse = Player:GetMouse()
 Commands = {
