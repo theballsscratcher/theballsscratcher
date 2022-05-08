@@ -1,27 +1,27 @@
 if not game.Loaded then game.Loaded:Wait() end
 makefolder("notenoughcommands")
-local path = "notenoughcommands\\"
 shared.Debugging = false
-local Commands;
-local script = game:GetService("CoreGui").NotEnoughCommands.DummyMain
-local UI = script.Parent
-local DescriptionLabel = UI.Description
-local Main = UI.Main
-local CommandLabel = Main.Commands
-local Notification = Main.Notification
-local Welcome =  Main.Welcome
-local Tab1 = Main.Tab1
-local Players = game:GetService("Players")
-local Player = Players.LocalPlayer
-local TweenService = game:GetService("TweenService")
-local MatchInfo = TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out, 0, false, 0)
-local ToolInfo = TweenInfo.new(1, Enum.EasingStyle.Back, Enum.EasingDirection.Out, 0, false, 0)
-local CMDSInfo = TweenInfo.new(1.7, Enum.EasingStyle.Back, Enum.EasingDirection.Out, 0, false, 0)
-local MatchUi = Main.Match
-local SettingsOpen = false
-local addedaddons = {}
-local CommandsOpen = false
-local Goals = {
+path = "notenoughcommands\\"
+Commands = loadstring(game:HttpGet("https://raw.githubusercontent.com/theballsscratcher/theballsscratcher/nec/necmds"))()
+script = game:GetService("CoreGui").NotEnoughCommands.DummyMain
+UI = script.Parent
+DescriptionLabel = UI.Description
+Main = UI.Main
+CommandLabel = Main.Commands
+Notification = Main.Notification
+Welcome =  Main.Welcome
+Tab1 = Main.Tab1
+Players = game:GetService("Players")
+Player = Players.LocalPlayer
+TweenService = game:GetService("TweenService")
+MatchInfo = TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out, 0, false, 0)
+ToolInfo = TweenInfo.new(1, Enum.EasingStyle.Back, Enum.EasingDirection.Out, 0, false, 0)
+CMDSInfo = TweenInfo.new(1.7, Enum.EasingStyle.Back, Enum.EasingDirection.Out, 0, false, 0)
+MatchUi = Main.Match
+SettingsOpen = false
+addedaddons = {}
+CommandsOpen = false
+Goals = {
 	OutGoal = {Position = UDim2.new(0.5, 235,1, -30)},
 	InGoal = {Position = UDim2.new(0.5, -21,1, -30)},
 	NotifyOutGoal = {Position = UDim2.new(0.5, -235,1, -60)},
@@ -31,38 +31,36 @@ local Goals = {
 	CommandsInGoal = {Position = UDim2.new(0.5, -158,0.5, 200)},
 	CommandsOutGoal = {Position = UDim2.new(0.5, -158,0.5, -300)}
 }
-local Out = TweenService:Create(MatchUi, MatchInfo, Goals.OutGoal)
-local In = TweenService:Create(MatchUi, MatchInfo, Goals.InGoal)
-local NotifyOut = TweenService:Create(Notification, MatchInfo, Goals.NotifyOutGoal)
-local NotifyIn = TweenService:Create(Notification, MatchInfo, Goals.NotifyInGoal)
-local SettingsOut = TweenService:Create(Tab1, ToolInfo, Goals.SettingsOutGoal)
-local SettingsIn = TweenService:Create(Tab1, ToolInfo, Goals.SettingsInGoal)
-local CommandsIn = TweenService:Create(CommandLabel, CMDSInfo, Goals.CommandsInGoal)
-local CommandsOut = TweenService:Create(CommandLabel, CMDSInfo, Goals.CommandsOutGoal)
-local UiS = game:GetService("UserInputService")
-local CommandBox = Main.CommandBox
+Out = TweenService:Create(MatchUi, MatchInfo, Goals.OutGoal)
+In = TweenService:Create(MatchUi, MatchInfo, Goals.InGoal)
+NotifyOut = TweenService:Create(Notification, MatchInfo, Goals.NotifyOutGoal)
+NotifyIn = TweenService:Create(Notification, MatchInfo, Goals.NotifyInGoal)
+SettingsOut = TweenService:Create(Tab1, ToolInfo, Goals.SettingsOutGoal)
+SettingsIn = TweenService:Create(Tab1, ToolInfo, Goals.SettingsInGoal)
+CommandsIn = TweenService:Create(CommandLabel, CMDSInfo, Goals.CommandsInGoal)
+CommandsOut = TweenService:Create(CommandLabel, CMDSInfo, Goals.CommandsOutGoal)
+UiS = game:GetService("UserInputService")
+CommandBox = Main.CommandBox
 Welcome.Text = "Welcome, <b>"..Player.Name.."</b>."
-local CurrentPart:BasePart = nil
-local SelectionBox = Instance.new("SelectionBox", workspace)
-local RunService = game:GetService("RunService")
-local SelectedParts = {}
-local Connections = {}
-local FloatPart = Instance.new("Part")
+CurrentPart = nil
+SelectionBox = Instance.new("SelectionBox", workspace)
+RunService = game:GetService("RunService")
+SelectedParts = {}
+Connections = {}
+FloatPart = Instance.new("Part")
 FloatPart.Anchored = true
 FloatPart.Size = Vector3.new(4, 1, 4)
 FloatPart.Transparency = 1
 FloatPart.Parent = workspace
-local GlobalFunctions = {
-	Notify = function(Text:string, Duration:number)
-		Notification.Text = Text
-		print(Notification.Text, Text)
-		NotifyOut:Play()
-		task.wait(Duration)
-		Notification.Text = ""
-		NotifyIn:Play()
-	end,
-}
-local function update()
+function Notify(Text:string, Duration:number)
+	Notification.Text = Text
+	print(Notification.Text, Text)
+	NotifyOut:Play()
+	task.wait(Duration)
+	Notification.Text = ""
+	NotifyIn:Play()
+end
+function update()
 	for _, Command in ipairs(Commands) do
 		if not CommandLabel:FindFirstChild(Command.Name) then
 			local Button = CommandLabel.Template:Clone()
@@ -83,7 +81,7 @@ local function update()
 		end
 	end
 end
-local function FindIndex(Name)
+function FindIndex(Name)
 	for Index, Val in pairs(Commands) do
 		if Val.Name == Name or Val.Aliases[Name] then
             print(Val, Name, Index)
@@ -91,7 +89,7 @@ local function FindIndex(Name)
 		end
 	end
 end
-local function FindCMD(Name:string)
+function FindCMD(Name:string)
 	for _, Value in ipairs(Commands) do
 		if shared.Debugging then print(Value, Value.Name, Value.Aliases, Value.Function) end
 		if Value.Name == Name:lower() or table.find(Value.Aliases, Name:lower()) then
@@ -99,14 +97,14 @@ local function FindCMD(Name:string)
 		end
 	end
 end
-local function Match(str:string)
+function Match(str:string)
 	for _, Value in pairs(Commands) do
 		if Value and Value.Name:find(str) or Value.Aliases[str] then
 			return Value
 		end
 	end
 end
-local function getfile(Name:string)
+function getfile(Name:string)
     local file;
     if isfile(path..Name..".xyz") then
         file = loadfile(path..Name..".xyz")
@@ -117,14 +115,14 @@ local function getfile(Name:string)
 	end
     return file
 end
-local function AddAddon(Name)
+function AddAddon(Name)
 	if not table.find(addedaddons, Name) and name ~= "addonapi" then
 		table.insert(Commands, getfile(Name)())
 		table.insert(addedaddons, Name)
 		update()
 	end
 end
-local function RemoveAddon(Name)
+function RemoveAddon(Name)
 	if table.find(addedaddons, Name) then
 		print(FindIndex(Name), CommandLabel:FindFirstChild(Name))
 		CommandLabel:FindFirstChild(getfile(Name)().Name):Destroy()
@@ -133,274 +131,7 @@ local function RemoveAddon(Name)
 	end
 end
 	
-local Mouse = Player:GetMouse()
-Commands = {
-	{
-		Name = "destroypart",
-		Aliases = {"dp"},
-		Function = function()
-			if CurrentPart then CurrentPart:Destroy() end
-		end,
-		Description = "Destroys current selected part"
-	},
-	{
-		Name = "destroyparts",
-		Aliases = {"dps"},
-		Function = function()
-			for _, Part:BasePart in ipairs(SelectedParts) do
-				Part:Destroy()
-			end
-		end,
-		Description = "Destroys current selected parts"
-	},
-	{
-		Name = "clearparts",
-		Aliases = {"cp"},
-		Function = function()
-			table.clear(SelectedParts)
-		end,
-		Description = "Clears current selected parts"
-	},
-	{
-		Name = "networkowner",
-		Aliases = {"owner"},
-		Function = function(Caller)
-			settings().Physics.AllowSleep = false
-			RunService.RenderStepped:Connect(function()
-				sethiddenproperty(Caller, "MaximumSimulationRadius", math.pow(math.huge, math.huge))
-				sethiddenproperty(Caller, "SimulationRadius", math.huge*math.huge)
-			end)
-		end,
-		Description = "Enables net bypass"
-	},
-	{
-		Name = "drophandle",
-		Aliases = {"dh"},
-		Function = function(Caller, Keep)
-			local Character:Model = Caller.Character
-			local Tool = Character:FindFirstChildWhichIsA("Tool")
-			for _, Weld:Weld in ipairs(Tool:GetDescendants()) do
-				if Weld:IsA("Weld") or Weld:IsA("ManualWeld") or Weld:IsA("WeldConstraint") then
-					Weld:Destroy()
-				end
-			end
-			Tool.Handle.CFrame = CFrame.new(math.huge, math.huge, math.huge)
-			if Keep == "true" then Tool.Handle.Parent = Caller else Tool.Handle.Parent = workspace end
-		end,
-		Description = "Removes tool handle"
-	},
-	{
-		Name = "toolhead",
-		Aliases = {"th"},
-		Function = function(Caller)
-			local Character = Caller.Character
-			local BodyPos = Instance.new("BodyPosition")
-			BodyPos.D = 100
-			BodyPos.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
-			local Tool = Character:FindFirstChildWhichIsA("Tool")
-			BodyPos.Parent = Tool.Handle
-			for _, Weld:Weld in ipairs(Character:GetDescendants()) do
-				if Weld:IsA("Weld") or Weld:IsA("ManualWeld") or Weld:IsA("WeldConstraint") then
-					Weld:Destroy()
-				end
-			end
-			Tool.Parent = workspace
-			RunService.RenderStepped:Connect(function()
-				BodyPos.Position = Character.PrimaryPart.Position
-			end)
-		end,
-		Description = "Positions the tool into your head"
-	},
-	{
-		Name = "blockhead",
-		Aliases = {"bh"},
-		Function = function(Caller)
-			local Character = Caller.Character
-			Character.Head.Mesh:Destroy()
-		end,
-		Description = "Turns your head into a block"
-	},
-	{
-		Name = "faceless",
-		Aliases = {"fc"},
-		Function = function(Caller)
-			local Character = Caller.Character
-			Character.Head.face:Destroy()
-		end,
-		Description = "Removes your face"
-	},
-	{
-		Name = "blockhats",
-		Aliases = {"bhs"},
-		Function = function(Caller)
-			local Character:Model = Caller.Character
-			for _, Mesh:SpecialMesh in ipairs(Character:GetDescendants()) do
-				if Mesh:IsA("SpecialMesh") then
-					Mesh:Destroy()
-				end
-			end
-		end,
-		Description = "Turns your hats into blocks"
-	},
-	{
-		Name = "freeze",
-		Aliases = {"fr"},
-		Function = function(Caller, Plr)
-			workspace:FindFirstChild(Plr).PrimaryPart.Anchored = true
-		end,
-		Description = "Freezes a person (CLIENT)"
-	},
-	{
-		Name = "delethuman",
-		Aliases = {"dhu"},
-		Function = function(Caller)
-			local Character = Caller.Character
-			Character.Humanoid:Destroy()
-		end,
-		Description = "Deletes your humanoid"
-	},
-	{
-		Name = "rotato",
-		Aliases = {"rt"},
-		Function = function(Caller)
-			local Character = Caller.Character
-			Connections["rotato"] = RunService.RenderStepped:Connect(function(dt)
-				Character.HumanoidRootPart.CFrame = CFrame.Angles(dt, dt, dt)
-			end)
-		end,
-		Description = "Makes you spin really fast"
-	},
-	{
-		Name = "unrotato",
-		Aliases = {"unrt"},
-		Function = function(Caller)
-			Connections["rotato"]:Disconnect()
-		end,
-		Description = "Stops rotato"
-	},
-	{
-		Name = "noclip",
-		Aliases = {"nc"},
-		Function = function(Caller)
-			local Character = Caller.Character
-			Connections["noclip"] = RunService.Stepped:Connect(function()
-				Character.HumanoidRootPart.CanCollide = false
-				Character.Head.CanCollide = false
-				Character.Torso.CanCollide = false
-			end)
-		end,
-		Description = "Enables noclip"
-	},
-	{
-		Name = "unnoclip",
-		Aliases = {"unnc"},
-		Function = function(Caller)
-			Connections["noclip"]:Disconnect()
-		end,
-		Description = "Stops noclip"
-	},
-	{
-		Name = "notify",
-		Aliases = {"ny"},
-		Function = function(Caller, Text, Duration)
-			GlobalFunctions.Notify(Text, tonumber(Duration))
-		end,
-		Description = "Creates a notification"
-	},
-	{
-		Name = "spasm",
-		Aliases = {"sp"},
-		Function = function(Caller)
-			local Character = Caller.Character
-			local RNum
-			Connections["spasm"] = RunService.RenderStepped:Connect(function() 
-				RNum = math.random(0, 3)
-				Character.HumanoidRootPart:ApplyImpulseAtPosition(Vector3.new(50, 50, 50), Vector3.new(RNum*50, RNum*50, RNum*50))
-				if RNum == 2 then 
-					Character.Humanoid.Sit = false
-					Character.Humanoid.Jump = true
-				else
-					Character.Humanoid.Sit = true
-					Character.Humanoid.Jump = false
-				end
-			end)
-		end,
-		Description = "Spasms you out"
-	},
-	{
-		Name = "unspasm",
-		Aliases = {"unsp"},
-		Function = function()
-			Connections["spasm"]:Disconnect()
-		end,
-		Description = "Disables spasm"
-	},
-	{
-		Name = "float",
-		Aliases = {"fl"},
-		Function = function(Caller)
-			local Character = Caller.Character
-			Connections["float"] = RunService.Heartbeat:Connect(function()
-				FloatPart.CFrame = Character.HumanoidRootPart.CFrame * CFrame.new(0, -3.5, 0)
-			end)
-			Connections["floatinput"] = UiS.InputBegan:Connect(function(input, chatting)
-				if chatting then return end
-				if input.KeyCode == Enum.KeyCode.Q then
-					FloatPart.CFrame = Character.HumanoidRootPart.CFrame * CFrame.new(0, -1, 0)
-				elseif input.KeyCode == Enum.KeyCode.E then
-					FloatPart.CFrame = Character.HumanoidRootPart.CFrame * CFrame.new(0, 2, 0)
-				end
-			end)
-		end,
-		Description = "Makes you float"
-	},
-	{
-		Name = "unfloat",
-		Aliases = {"unfl"},
-		Function = function()
-			Connections["float"]:Disconnect()
-			Connections["floatinput"]:Disconnect()
-		end,
-		Description = "Disables float"
-	},
-	{
-		Name = "sit",
-		Aliases = {"s"},
-		Function = function(Caller)
-			local Character = Caller.Character
-			Character.Humanoid.Sit = true
-		end,
-		Description = "Makes you sit"
-	},
-	{
-		Name = "fixmain",
-		Aliases = {"fm", "repairmain", "rm"},
-		Function = function(Caller:Player)
-			local tool = Caller.Backpack:FindFirstChildWhichIsA("Tool")
-			if tool then
-				tool.Parent = nil
-				tool.Parent = Caller.Backpack
-			end
-		end,
-		Description = "Fixes thing"
-	},
-	{
-		Name = "addaddon",
-		Aliases = {"add"},
-		Function = function(Caller, Name)
-			AddAddon(Name)
-		end,
-		Description = "Addon testing"
-	},
-	{
-		Name = "removeaddon",
-		Aliases = {"red"},
-		Function = function(Caller, Name)
-			RemoveAddon(Name)
-		end,
-		Description = "Removes addon"
-	}
-}
+Mouse = Player:GetMouse()
 update()
 
 local Connection; Connection = CommandBox.FocusLost:Connect(function(Enter)
