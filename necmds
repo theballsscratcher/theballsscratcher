@@ -1,0 +1,269 @@
+Commands = {
+	{
+		Name = "destroypart",
+		Aliases = {"dp"},
+		Function = function()
+			if CurrentPart then CurrentPart:Destroy() end
+		end,
+		Description = "Destroys current selected part"
+	},
+	{
+		Name = "destroyparts",
+		Aliases = {"dps"},
+		Function = function()
+			for _, Part:BasePart in ipairs(SelectedParts) do
+				Part:Destroy()
+			end
+		end,
+		Description = "Destroys current selected parts"
+	},
+	{
+		Name = "clearparts",
+		Aliases = {"cp"},
+		Function = function()
+			table.clear(SelectedParts)
+		end,
+		Description = "Clears current selected parts"
+	},
+	{
+		Name = "networkowner",
+		Aliases = {"owner"},
+		Function = function(Caller)
+			settings().Physics.AllowSleep = false
+			RunService.RenderStepped:Connect(function()
+				sethiddenproperty(Caller, "MaximumSimulationRadius", math.pow(math.huge, math.huge))
+				sethiddenproperty(Caller, "SimulationRadius", math.huge*math.huge)
+			end)
+		end,
+		Description = "Enables net bypass"
+	},
+	{
+		Name = "drophandle",
+		Aliases = {"dh"},
+		Function = function(Caller, Keep)
+			local Character:Model = Caller.Character
+			local Tool = Character:FindFirstChildWhichIsA("Tool")
+			for _, Weld:Weld in ipairs(Tool:GetDescendants()) do
+				if Weld:IsA("Weld") or Weld:IsA("ManualWeld") or Weld:IsA("WeldConstraint") then
+					Weld:Destroy()
+				end
+			end
+			Tool.Handle.CFrame = CFrame.new(math.huge, math.huge, math.huge)
+			if Keep == "true" then Tool.Handle.Parent = Caller else Tool.Handle.Parent = workspace end
+		end,
+		Description = "Removes tool handle"
+	},
+	{
+		Name = "toolhead",
+		Aliases = {"th"},
+		Function = function(Caller)
+			local Character = Caller.Character
+			local BodyPos = Instance.new("BodyPosition")
+			BodyPos.D = 100
+			BodyPos.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+			local Tool = Character:FindFirstChildWhichIsA("Tool")
+			BodyPos.Parent = Tool.Handle
+			for _, Weld:Weld in ipairs(Character:GetDescendants()) do
+				if Weld:IsA("Weld") or Weld:IsA("ManualWeld") or Weld:IsA("WeldConstraint") then
+					Weld:Destroy()
+				end
+			end
+			Tool.Parent = workspace
+			RunService.RenderStepped:Connect(function()
+				BodyPos.Position = Character.PrimaryPart.Position
+			end)
+		end,
+		Description = "Positions the tool into your head"
+	},
+	{
+		Name = "blockhead",
+		Aliases = {"bh"},
+		Function = function(Caller)
+			local Character = Caller.Character
+			Character.Head.Mesh:Destroy()
+		end,
+		Description = "Turns your head into a block"
+	},
+	{
+		Name = "faceless",
+		Aliases = {"fc"},
+		Function = function(Caller)
+			local Character = Caller.Character
+			Character.Head.face:Destroy()
+		end,
+		Description = "Removes your face"
+	},
+	{
+		Name = "blockhats",
+		Aliases = {"bhs"},
+		Function = function(Caller)
+			local Character:Model = Caller.Character
+			for _, Mesh:SpecialMesh in ipairs(Character:GetDescendants()) do
+				if Mesh:IsA("SpecialMesh") then
+					Mesh:Destroy()
+				end
+			end
+		end,
+		Description = "Turns your hats into blocks"
+	},
+	{
+		Name = "freeze",
+		Aliases = {"fr"},
+		Function = function(Caller, Plr)
+			workspace:FindFirstChild(Plr).PrimaryPart.Anchored = true
+		end,
+		Description = "Freezes a person (CLIENT)"
+	},
+	{
+		Name = "delethuman",
+		Aliases = {"dhu"},
+		Function = function(Caller)
+			local Character = Caller.Character
+			Character.Humanoid:Destroy()
+		end,
+		Description = "Deletes your humanoid"
+	},
+	{
+		Name = "rotato",
+		Aliases = {"rt"},
+		Function = function(Caller)
+			local Character = Caller.Character
+			Connections["rotato"] = RunService.RenderStepped:Connect(function(dt)
+				Character.HumanoidRootPart.CFrame = CFrame.Angles(dt, dt, dt)
+			end)
+		end,
+		Description = "Makes you spin really fast"
+	},
+	{
+		Name = "unrotato",
+		Aliases = {"unrt"},
+		Function = function(Caller)
+			Connections["rotato"]:Disconnect()
+		end,
+		Description = "Stops rotato"
+	},
+	{
+		Name = "noclip",
+		Aliases = {"nc"},
+		Function = function(Caller)
+			local Character = Caller.Character
+			Connections["noclip"] = RunService.Stepped:Connect(function()
+				Character.HumanoidRootPart.CanCollide = false
+				Character.Head.CanCollide = false
+				Character.Torso.CanCollide = false
+			end)
+		end,
+		Description = "Enables noclip"
+	},
+	{
+		Name = "unnoclip",
+		Aliases = {"unnc"},
+		Function = function(Caller)
+			Connections["noclip"]:Disconnect()
+		end,
+		Description = "Stops noclip"
+	},
+	{
+		Name = "notify",
+		Aliases = {"ny"},
+		Function = function(Caller, Text, Duration)
+			Notify(Text, tonumber(Duration))
+		end,
+		Description = "Creates a notification"
+	},
+	{
+		Name = "spasm",
+		Aliases = {"sp"},
+		Function = function(Caller)
+			local Character = Caller.Character
+			local RNum
+			Connections["spasm"] = RunService.RenderStepped:Connect(function() 
+				RNum = math.random(0, 3)
+				Character.HumanoidRootPart:ApplyImpulseAtPosition(Vector3.new(50, 50, 50), Vector3.new(RNum*50, RNum*50, RNum*50))
+				if RNum == 2 then 
+					Character.Humanoid.Sit = false
+					Character.Humanoid.Jump = true
+				else
+					Character.Humanoid.Sit = true
+					Character.Humanoid.Jump = false
+				end
+			end)
+		end,
+		Description = "Spasms you out"
+	},
+	{
+		Name = "unspasm",
+		Aliases = {"unsp"},
+		Function = function()
+			Connections["spasm"]:Disconnect()
+		end,
+		Description = "Disables spasm"
+	},
+	{
+		Name = "float",
+		Aliases = {"fl"},
+		Function = function(Caller)
+			local Character = Caller.Character
+			Connections["float"] = RunService.Heartbeat:Connect(function()
+				FloatPart.CFrame = Character.HumanoidRootPart.CFrame * CFrame.new(0, -3.5, 0)
+			end)
+			Connections["floatinput"] = UiS.InputBegan:Connect(function(input, chatting)
+				if chatting then return end
+				if input.KeyCode == Enum.KeyCode.Q then
+					FloatPart.CFrame = Character.HumanoidRootPart.CFrame * CFrame.new(0, -1, 0)
+				elseif input.KeyCode == Enum.KeyCode.E then
+					FloatPart.CFrame = Character.HumanoidRootPart.CFrame * CFrame.new(0, 2, 0)
+				end
+			end)
+		end,
+		Description = "Makes you float"
+	},
+	{
+		Name = "unfloat",
+		Aliases = {"unfl"},
+		Function = function()
+			Connections["float"]:Disconnect()
+			Connections["floatinput"]:Disconnect()
+		end,
+		Description = "Disables float"
+	},
+	{
+		Name = "sit",
+		Aliases = {"s"},
+		Function = function(Caller)
+			local Character = Caller.Character
+			Character.Humanoid.Sit = true
+		end,
+		Description = "Makes you sit"
+	},
+	{
+		Name = "fixmain",
+		Aliases = {"fm", "repairmain", "rm"},
+		Function = function(Caller:Player)
+			local tool = Caller.Backpack:FindFirstChildWhichIsA("Tool")
+			if tool then
+				tool.Parent = nil
+				tool.Parent = Caller.Backpack
+			end
+		end,
+		Description = "Fixes thing"
+	},
+	{
+		Name = "addaddon",
+		Aliases = {"add"},
+		Function = function(Caller, Name)
+			AddAddon(Name)
+		end,
+		Description = "Addon testing"
+	},
+	{
+		Name = "removeaddon",
+		Aliases = {"red"},
+		Function = function(Caller, Name)
+			RemoveAddon(Name)
+		end,
+		Description = "Removes addon"
+	}
+}
+
+return Commands
