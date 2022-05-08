@@ -263,6 +263,17 @@ Commands = {
 			RemoveAddon(Name)
 		end,
 		Description = "Removes addon"
+	},
+	{
+		Name = "newtheme",
+		Aliases = {"nt"},
+		Function = function(Caller, Color1, Color2)
+			local split1 = Color1:split(",")
+			local split2 = Color2:split(",")
+			for _, BaseUi in ipairs(UI:GetDescendants())
+				if BaseUi:IsA("Frame") or BaseUi:IsA("TextButton") or BaseUi:IsA("TextBox") or BaseUi:IsA("TextLabel") then
+					BaseUi.BackgroundColor3 = Color3.new(split1[1], split[2], split[3])
+				end
 	}
 }
 
