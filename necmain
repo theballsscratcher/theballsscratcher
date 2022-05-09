@@ -130,7 +130,11 @@ function RemoveAddon(Name)
 		table.remove(addedaddons, table.find(addedaddons, Name))
 	end
 end
-	
+function StringToRGB(String)
+	local split = String:split(",")
+	if #split < 3 or #split > 3 then return end
+	return Color3.fromRGB(split[1], split[2], split[3])
+end
 Mouse = Player:GetMouse()
 update()
 
