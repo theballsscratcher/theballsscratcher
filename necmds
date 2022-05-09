@@ -270,7 +270,7 @@ Commands = {
 		Function = function(Caller, Color1, Color2)
 			local color1 = StringToRGB(Color1)
 			local color2 = StringToRGB(Color2)
-			for _, BaseUi in ipairs(UI:GetDescendants())
+			for _, BaseUi in ipairs(UI:GetDescendants()) do
 				if BaseUi:IsA("Frame") or BaseUi:IsA("TextButton") or BaseUi:IsA("TextBox") or BaseUi:IsA("TextLabel") then
 					BaseUi.BackgroundColor3 = color1
 				elseif BaseUi:IsA("UItroke") then
