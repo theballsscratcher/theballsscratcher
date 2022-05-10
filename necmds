@@ -273,9 +273,12 @@ Commands = {
 			print(color1, color2)
 			for _, BaseUi in ipairs(UI:GetDescendants()) do
 				print(BaseUi)
-				if BaseUi:IsA("Frame") or BaseUi:IsA("TextButton") or BaseUi:IsA("TextBox") or BaseUi:IsA("TextLabel") then
+				if BaseUi:IsA("Frame") or BaseUi:IsA("TextButton") or BaseUi:IsA("TextBox") or then
 					BaseUi.BackgroundColor3 = color1
 					print(BaseUi.BackgroundColor3)
+				elseif BaseUi:IsA("TextLabel")
+					BaseUi.TextColor3 = color2
+					BaseUi.TextStrokeColor3 = color1
 				elseif BaseUi:IsA("UIStroke") then
 					BaseUi.Color = color2
 					print(BaseUi.Color)
