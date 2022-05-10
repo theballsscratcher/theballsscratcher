@@ -133,6 +133,7 @@ end
 function StringToRGB(String)
 	local split = String:split(",")
 	if #split < 3 or #split > 3 then return end
+	print(String, Color3.fromRGB(split[1], split[2], split[3]))
 	return Color3.fromRGB(split[1], split[2], split[3])
 end
 Mouse = Player:GetMouse()
