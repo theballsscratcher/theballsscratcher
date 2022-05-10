@@ -275,8 +275,10 @@ Commands = {
 				print(BaseUi)
 				if BaseUi:IsA("Frame") or BaseUi:IsA("TextButton") or BaseUi:IsA("TextBox") or BaseUi:IsA("TextLabel") then
 					BaseUi.BackgroundColor3 = color1
-				elseif BaseUi:IsA("UItroke") then
+					print(BaseUi.BackgroundColor3)
+				elseif BaseUi:IsA("UIStroke") then
 					BaseUi.Color = color2
+					print(BaseUi.Color)
 				end
 			end
 		end
