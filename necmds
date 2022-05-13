@@ -270,20 +270,7 @@ Commands = {
 		Function = function(Caller, Color1, Color2)
 			local color1 = StringToRGB(Color1)
 			local color2 = StringToRGB(Color2)
-			print(color1, color2)
-			for _, BaseUi in ipairs(UI:GetDescendants()) do
-				print(BaseUi)
-				if BaseUi:IsA("Frame") or BaseUi:IsA("TextButton") or BaseUi:IsA("TextBox") or then
-					BaseUi.BackgroundColor3 = color1
-					print(BaseUi.BackgroundColor3)
-				elseif BaseUi:IsA("TextLabel") then
-					BaseUi.TextColor3 = color2
-					BaseUi.TextStrokeColor3 = color1
-				elseif BaseUi:IsA("UIStroke") then
-					BaseUi.Color = color2
-					print(BaseUi.Color)
-				end
-			end
+			NewTheme(color1, color2)
 		end
 	}
 }
