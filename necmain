@@ -2,6 +2,12 @@ if not game.Loaded then game.Loaded:Wait() end
 makefolder("notenoughcommands")
 shared.Debugging = false
 path = "notenoughcommands\\"
+writefile(path.."save.xyz", [[
+local save = {}
+save.Color1 = Color3.fromRGB(0, 0, 0)
+save.Color2 = Color3.fromRGB(252, 163, 17)
+return save
+]])
 Commands = loadstring(game:HttpGet("https://raw.githubusercontent.com/theballsscratcher/theballsscratcher/nec/necmds"))()
 script = game:GetService("CoreGui").NotEnoughCommands.DummyMain
 UI = script.Parent
@@ -150,6 +156,11 @@ function NewTheme(color1, color2)
 		end
 	end
 end
+if isfile(path.."save.xyz") then
+	local file = loadfile(path.."save.xyz")()
+	NewTheme(file.Color1, file.Color2)
+end
+end
 Mouse = Player:GetMouse()
 update()
 
@@ -236,4 +247,12 @@ end)
 
 RunService.RenderStepped:Connect(function()
 	DescriptionLabel.Position = UDim2.new(0, Mouse.X + 10, 0, Mouse.Y + 10)
+end)
+UI.Destroying:Connect(function()
+	writefile(path.."save.xyz", [[
+	local save = {}
+	save.Color1 = Main.BackgroundColor3
+	save.Color2 = Main.UIStroke.Color
+	return save
+]])
 end)
