@@ -13,10 +13,10 @@ Welcome =  Main.Welcome
 Tab1 = Main.Tab1
 writefile(path.."save.xyz", [[
 local save = {}
-save.Color1 = Main.BackgroundColor3
-save.Color2 = Main.UIStroke.Color
-return save
-]])
+save.Color1 = Color3.fromRGB(]]..tostring(Main.BackgroundColor3)..[[
+save.Color2 = ]]..tostring(Main.UIStroke.Color)..[[
+return save]]
+)
 Players = game:GetService("Players")
 Player = Players.LocalPlayer
 TweenService = game:GetService("TweenService")
