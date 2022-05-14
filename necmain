@@ -144,7 +144,7 @@ function StringToRGB(String)
 end
 function NewTheme(color1, color2)
 	for _, BaseUi in ipairs(UI:GetDescendants()) do
-			if BaseUi:IsA("Frame") or BaseUi:IsA("TextButton") or BaseUi:IsA("TextBox") or then
+			if BaseUi:IsA("Frame") or BaseUi:IsA("TextButton") or BaseUi:IsA("TextBox") then
 				BaseUi.BackgroundColor3 = color1
 				print(BaseUi.BackgroundColor3)
 			elseif BaseUi:IsA("TextLabel") then
