@@ -144,10 +144,10 @@ function StringToRGB(String)
 end
 function NewTheme(color1, color2)
 	for _, BaseUi in ipairs(UI:GetDescendants()) do
-			if BaseUi:IsA("Frame") or BaseUi:IsA("TextButton") or BaseUi:IsA("TextBox") then
+			if BaseUi:IsA("Frame") then
 				BaseUi.BackgroundColor3 = color1
 				print(BaseUi.BackgroundColor3)
-			elseif BaseUi:IsA("TextLabel") then
+			elseif BaseUi:IsA("TextLabel") or BaseUi:IsA("TextButton") or BaseUi:IsA("TextBox") then
 				BaseUi.TextColor3 = color2
 				BaseUi.TextStrokeColor3 = color1
 			elseif BaseUi:IsA("UIStroke") then
@@ -159,7 +159,6 @@ end
 if isfile(path.."save.xyz") then
 	local file = loadfile(path.."save.xyz")()
 	NewTheme(file.Color1, file.Color2)
-end
 end
 Mouse = Player:GetMouse()
 update()
