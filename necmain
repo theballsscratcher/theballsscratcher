@@ -2,12 +2,6 @@ if not game.Loaded then game.Loaded:Wait() end
 makefolder("notenoughcommands")
 shared.Debugging = false
 path = "notenoughcommands\\"
-writefile(path.."save.xyz", [[
-local save = {}
-save.Color1 = Color3.fromRGB(0, 0, 0)
-save.Color2 = Color3.fromRGB(252, 163, 17)
-return save
-]])
 Commands = loadstring(game:HttpGet("https://raw.githubusercontent.com/theballsscratcher/theballsscratcher/nec/necmds"))()
 script = game:GetService("CoreGui").NotEnoughCommands.DummyMain
 UI = script.Parent
@@ -17,6 +11,12 @@ CommandLabel = Main.Commands
 Notification = Main.Notification
 Welcome =  Main.Welcome
 Tab1 = Main.Tab1
+writefile(path.."save.xyz", [[
+local save = {}
+save.Color1 = Main.BackgroundColor3
+save.Color2 = Main.UIStroke.Color
+return save
+]])
 Players = game:GetService("Players")
 Player = Players.LocalPlayer
 TweenService = game:GetService("TweenService")
