@@ -248,10 +248,9 @@ RunService.RenderStepped:Connect(function()
 	DescriptionLabel.Position = UDim2.new(0, Mouse.X + 10, 0, Mouse.Y + 10)
 end)
 UI.Destroying:Connect(function()
-	writefile(path.."save.xyz", [[
+	writefile(path.."save.xyz", [[[
 	local save = {}
-	save.Color1 = Main.BackgroundColor3
-	save.Color2 = Main.UIStroke.Color
-	return save
-]])
+	save.Color1 = Color3.fromRGB(]]..tostring(Main.BackgroundColor3)..[[
+	save.Color2 = ]]..tostring(Main.UIStroke.Color)..[[
+	return save]])
 end)
