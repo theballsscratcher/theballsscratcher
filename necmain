@@ -11,12 +11,13 @@ CommandLabel = Main.Commands
 Notification = Main.Notification
 Welcome =  Main.Welcome
 Tab1 = Main.Tab1
-writefile(path.."save.xyz", [[
-local save = {}
-save.Color1 = Color3.new(]]..tostring(Main.BackgroundColor3)..[[)
-save.Color2 = Color3.new(]]..tostring(Main.UIStroke.Color)..[[)
-return save]]
-)
+if not isfile(path.."save.xyz") then
+	writefile(path.."save.xyz", [[
+	local save = {}
+	save.Color1 = Color3.new(]]..tostring(Main.BackgroundColor3)..[[)
+	save.Color2 = Color3.new(]]..tostring(Main.UIStroke.Color)..[[)
+	return save]])
+end
 Players = game:GetService("Players")
 Player = Players.LocalPlayer
 TweenService = game:GetService("TweenService")
