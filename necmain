@@ -13,7 +13,7 @@ Welcome =  Main.Welcome
 Tab1 = Main.Tab1
 writefile(path.."save.xyz", [[
 local save = {}
-save.Color1 = Color3.new(]]..tostring(Main.BackgroundColor3)..[[)[[
+save.Color1 = Color3.new(]]..tostring(Main.BackgroundColor3)..[[)
 save.Color2 = Color3.new(]]..tostring(Main.UIStroke.Color)..[[)
 return save]]
 )
@@ -146,13 +146,12 @@ function NewTheme(color1, color2)
 	for _, BaseUi in ipairs(UI:GetDescendants()) do
 			if BaseUi:IsA("Frame") then
 				BaseUi.BackgroundColor3 = color1
-				print(BaseUi.BackgroundColor3)
 			elseif BaseUi:IsA("TextLabel") or BaseUi:IsA("TextButton") or BaseUi:IsA("TextBox") then
 				BaseUi.TextColor3 = color2
 				BaseUi.TextStrokeColor3 = color1
+				BaseUi.BackgroundColor3 = color1
 			elseif BaseUi:IsA("UIStroke") then
 				BaseUi.Color = color2
-			print(BaseUi.Color)
 		end
 	end
 end
@@ -250,7 +249,7 @@ end)
 UI.Destroying:Connect(function()
 	writefile(path.."save.xyz", [[
 	local save = {}
-	save.Color1 = Color3.new(]]..tostring(Main.BackgroundColor3)..[[)[[
+	save.Color1 = Color3.new(]]..tostring(Main.BackgroundColor3)..[[)
 	save.Color2 = Color3.new(]]..tostring(Main.UIStroke.Color)..[[)
 	return save]]
 	)
