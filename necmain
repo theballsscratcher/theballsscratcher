@@ -156,6 +156,7 @@ function NewTheme(color1, color2)
 			elseif BaseUi:IsA("ScrollingFrame") then
 				BaseUi.ScrollBarImageColor3 = color2
 				BaseUi.BackgroundColor3 = color1
+				BaseUi.BorderColor3 = color2
 		end
 	end
 end
